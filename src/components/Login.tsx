@@ -65,7 +65,7 @@ const CyberSecurityLogin = () => {
     const newErrors = { email: '', password: '' };
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     let isValid = true;
-
+ 
     if (!credentials.email) {
       newErrors.email = 'Email is required';
       isValid = false;
