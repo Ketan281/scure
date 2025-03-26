@@ -28,7 +28,7 @@ export const GradientButton: React.FC<GradientButtonProps> = ({
         borderRadius: '8px',
         color:"#fff",
         ...props.sx
-      }}
+      }} 
     >
       {loading ? (
         <CircularProgress size={24} sx={{ color: '#fff' }} />
