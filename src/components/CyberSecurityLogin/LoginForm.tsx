@@ -118,14 +118,14 @@ export const LoginForm: React.FC<{ isMobile: boolean }> = ({ isMobile }) => {
       </Grid>
 
       <GradientButton
-        fullWidth
-        type="submit"
-        loading={loading}
-        disabled={!recaptchaToken}
-        sx={{ mt: 2 }}
-      >
-        Initiate Secure Session
-      </GradientButton>
+  fullWidth
+  type="submit"
+  loading={loading}
+  disabled={!credentials.email || !credentials.password || !!errors.email || !!errors.password}
+  sx={{ mt: 2 }}
+>
+  Initiate Secure Session
+</GradientButton>
 
       <Typography variant="body2" textAlign="center" mt={1} sx={{ 
         color: '#8a93a3',

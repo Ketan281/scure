@@ -26,6 +26,7 @@ export const GradientButton: React.FC<GradientButtonProps> = ({
         fontSize: '1.1rem',
         fontWeight: 600,
         borderRadius: '8px',
+        color:"#fff",
         ...props.sx
       }}
     >
