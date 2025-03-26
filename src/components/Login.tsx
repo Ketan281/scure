@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo, useEffect } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { 
   Box, 
   TextField, 
@@ -14,12 +14,36 @@ import {
 } from '@mui/material';
 import { Lock, Email, Visibility, VisibilityOff } from '@mui/icons-material';
 import ReCAPTCHA from 'react-google-recaptcha';
-import styled from '@emotion/styled';
+import { styled } from '@mui/material/styles';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+interface CyberCardProps {
+  ismobile: boolean;
+}
+
+const CyberCard = styled(Box, {
+  shouldForwardProp: (prop) => prop !== 'ismobile',
+})<CyberCardProps>(({ ismobile }) => ({
+  position: 'relative',
+  background: 'rgba(255, 255, 255, 0.05)',
+  backdropFilter: 'blur(10px)',
+  borderRadius: '16px',
+  border: '1px solid rgba(255, 255, 255, 0.1)',
+  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
+  padding: '2rem',
+  width: ismobile ? 'calc(100% - 32px)' : '450px',
+  maxWidth: '500px',
+  margin: '16px',
+  transition: 'box-shadow 0.3s ease',
+  maxHeight: 'calc(100vh - 32px)',
+  overflowY: 'auto',
+  '&:hover': {
+    boxShadow: '0 12px 48px rgba(0, 0, 0, 0.2)'
+  }
+}));
+
 const CyberSecurityLogin = () => {
-  // State Management
   const [credentials, setCredentials] = useState({
     email: '', 
     password: '', 
@@ -34,33 +58,9 @@ const CyberSecurityLogin = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [isFormValid, setIsFormValid] = useState(false);
   
-  // Responsive design
   const isMobile = useMediaQuery('(max-width:600px)');
-
-  // ReCAPTCHA site key
   const RECAPTCHA_SITE_KEY = '6LfXUAArAAAAACCMHLi8AKFPAqYL6ezIQG2791Lx';
 
-  // Memoized styled component to prevent unnecessary re-renders
-  const CyberCard = useMemo(() => styled(Box)(({ isMobile }: { isMobile: boolean }) => ({
-    position: 'relative',
-    background: 'rgba(255, 255, 255, 0.05)',
-    backdropFilter: 'blur(10px)',
-    borderRadius: '16px',
-    border: '1px solid rgba(255, 255, 255, 0.1)',
-    boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
-    padding: '2rem',
-    width: isMobile ? 'calc(100% - 32px)' : '450px',
-    maxWidth: '500px',
-    margin: '16px',
-    transition: 'box-shadow 0.3s ease',
-    maxHeight: 'calc(100vh - 32px)',
-    overflowY: 'auto',
-    '&:hover': {
-      boxShadow: '0 12px 48px rgba(0, 0, 0, 0.2)'
-    }
-  })), []);
-
-  // Input validation method
   const validateInputs = useCallback(() => {
     const newErrors = { email: '', password: '' };
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -86,13 +86,11 @@ const CyberSecurityLogin = () => {
     return isValid;
   }, [credentials.email, credentials.password]);
 
-  // Check form validity whenever credentials or recaptcha changes
   useEffect(() => {
     const inputsValid = validateInputs();
     setIsFormValid(inputsValid);
   }, [credentials, validateInputs]);
 
-  // Login handler
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     
@@ -109,7 +107,6 @@ const CyberSecurityLogin = () => {
     setLoading(true);
     
     try {
-      // Show submitted toast immediately
       toast.info('Submitted', {
         autoClose: 2000,
         hideProgressBar: true
@@ -124,7 +121,6 @@ const CyberSecurityLogin = () => {
     }
   };
 
-  // Controlled input change handler
   const handleInputChange = useCallback((
     e: React.ChangeEvent<HTMLInputElement>, 
     field: 'email' | 'password'
@@ -135,7 +131,6 @@ const CyberSecurityLogin = () => {
     }));
   }, []);
 
-  // Toggle password visibility
   const togglePasswordVisibility = useCallback(() => {
     setShowPassword(prev => !prev);
   }, []);
@@ -164,7 +159,7 @@ const CyberSecurityLogin = () => {
           alignItems="center"
           sx={{ width: '100%', height: '100%' }}
         >
-          <CyberCard isMobile={isMobile}>
+          <CyberCard ismobile={isMobile}>
             <Box textAlign="center" mb={2}>
               <Box
                 component="img"
